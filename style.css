@@ -1,3 +1,29 @@
+/* Centraliza o conteúdo das atividades e alinha checkbox e texto */
+.activity {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+}
+
+.activity label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.activity .hora {
+    font-weight: bold;
+    margin-right: 4px;
+}
+
+.checkbox {
+    accent-color: #0078d7;
+    width: 18px;
+    height: 18px;
+    margin-right: 6px;
+}
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -7,7 +33,7 @@ body {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1700px;
     margin: 0 auto;
     background: #2a2a2a;
     color: #e0e0e0;
@@ -37,6 +63,7 @@ h2 {
     padding: 10px;
     min-height: 200px;
     position: relative;
+    transition: all 0.3s ease;
 }
 
 .day-header {
@@ -85,12 +112,13 @@ h2 {
 
 .tracker-section {
     margin-top: 30px;
-    display: grid;
+    display: none; /* Inicialmente oculto era display Grid */
     grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
 
 .tracker-card {
+    display: none; /* Inicialmente oculto */
     background: #2a2a2a;
     padding: 15px;
     border-radius: 8px;
@@ -175,12 +203,37 @@ h2 {
     font-size: 12px
 }
 
-@media (max-width: 768px) {
-    .week-grid {
-        grid-template-columns: 1fr;
-    }
 
-    .tracker-section {
-        grid-template-columns: 1fr;
-    }
-}
+
+@media (max-width: 768px) {
+            .week-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tracker-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .day-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .day-card:nth-child(1) { animation-delay: 0.1s; }
+        .day-card:nth-child(2) { animation-delay: 0.2s; }
+        .day-card:nth-child(3) { animation-delay: 0.3s; }
+        .day-card:nth-child(4) { animation-delay: 0.4s; }
+        .day-card:nth-child(5) { animation-delay: 0.5s; }
+        .day-card:nth-child(6) { animation-delay: 0.6s; }
+        .day-card:nth-child(7) { animation-delay: 0.7s; }
