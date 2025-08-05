@@ -262,17 +262,26 @@ function addActivity() {
     newActivity.dataset.id = newId;
     
     newActivity.innerHTML = `
-        <input type="checkbox" class="checkbox" id="${newId}">
-        <label for="${newId}">
-            <span class="hora">${time}</span> - ${text}
-        </label>
-        <button class="remove-activity-btn" onclick="removeActivity(this)">
-            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
-                <path fill="#b39ddb" d="M30.6,44H17.4c-2,0-3.7-1.4-4-3.4L9,11h30l-4.5,29.6C34.2,42.6,32.5,44,30.6,44z"></path>
-                <path fill="#9575cd" d="M28 6L20 6 14 12 34 12z"></path>
-                <path fill="#7e57c2" d="M10,8h28c1.1,0,2,0.9,2,2v2H8v-2C8,8.9,8.9,8,10,8z"></path>
-            </svg>
-        </button>
+        <div class="activity-content">
+            <span class="activity-text"><span class="hora">${time}</span> - ${text}</span>
+        </div>
+        <div class="activity-actions">
+            <button class="action-btn edit-btn" onclick="editActivity(this)" title="Editar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                    <path fill="#64B5F6" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                </svg>
+            </button>
+            <button class="action-btn complete-btn" onclick="toggleComplete(this)" title="Marcar como concluído">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                    <path fill="#81C784" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                </svg>
+            </button>
+            <button class="action-btn delete-btn" onclick="removeActivity(this)" title="Excluir">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+                    <path fill="#E57373" d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                </svg>
+            </button>
+        </div>
     `;
 
     // Adicionar eventos de drag and drop para a nova atividade
