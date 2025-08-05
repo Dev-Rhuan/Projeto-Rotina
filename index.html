@@ -10,11 +10,28 @@
 
 <body>
     <div class="container">
-        
-
         <div class="controls">
             <button class="btn" onclick="alternarEscala()">Alternar Escala da Semana</button>
             <button class="btn" onclick="resetarSemana()">Resetar Semana</button>
+        </div>
+
+        <!-- Modal para adicionar atividade -->
+        <div id="addActivityModal" class="modal">
+            <div class="modal-content">
+                <h2>Adicionar Nova Atividade</h2>
+                <div class="form-group">
+                    <label for="activityTime">Horário:</label>
+                    <input type="time" id="activityTime" required>
+                </div>
+                <div class="form-group">
+                    <label for="activityText">Atividade:</label>
+                    <input type="text" id="activityText" placeholder="Digite a atividade" required>
+                </div>
+                <div class="modal-buttons">
+                    <button class="btn" onclick="addActivity()">Adicionar</button>
+                    <button class="btn btn-cancel" onclick="hideAddActivityModal()">Cancelar</button>
+                </div>
+            </div>
         </div>
 
         <div class="legend">
