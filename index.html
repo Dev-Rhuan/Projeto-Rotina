@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotina Semanal - Escala 12x36</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>🗓️ Rotina Semanal - Escala 12x36 Contínua</h1>
+
+        <div class="controls">
+            <button class="btn" onclick="alternarEscala()">Alternar Escala da Semana</button>
+            <button class="btn" onclick="resetarSemana()">Resetar Semana</button>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color trabalho"></div>
+                <span>Trabalho + Faculdade</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color trabalho-weekend"></div>
+                <span>Trabalho (Fim de Semana)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color folga"></div>
+                <span>Folga</span>
+            </div>
+        </div>
+
+        <div class="week-grid" id="weekGrid">
+            <!-- Será preenchido pelo JavaScript -->
+        </div>
+
+        <div class="tracker-section">
+            <div class="tracker-card">
+                <h3>📊 Tracker Semanal de Atividades</h3>
+                <table class="tracker-table">
+                    <thead>
+                        <tr>
+                            <th>Atividade</th>
+                            <th>Meta</th>
+                            <th>Seg</th>
+                            <th>Ter</th>
+                            <th>Qua</th>
+                            <th>Qui</th>
+                            <th>Sex</th>
+                            <th>Sáb</th>
+                            <th>Dom</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🏋️ Academia</td>
+                            <td>3x</td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                        </tr>
+                        <tr>
+                            <td>🏠 Organização Casa</td>
+                            <td>Diário</td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                        </tr>
+                        <tr>
+                            <td>💼 Planejamento Financeiro</td>
+                            <td>1x</td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                        </tr>
+                        <tr>
+                            <td>👔 Cuidados Pessoais</td>
+                            <td>2x</td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                        </tr>
+                        <tr>
+                            <td>🎯 Revisão Semanal</td>
+                            <td>1x</td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tracker-card">
+                <h3>🏥 Agendamento de Consultas</h3>
+                <table class="tracker-table">
+                    <thead>
+                        <tr>
+                            <th>Especialidade</th>
+                            <th>Frequência</th>
+                            <th>Última Consulta</th>
+                            <th>Próxima</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🦷 Dentista</td>
+                            <td>6 meses</td>
+                            <td><input type="date"></td>
+                            <td><input type="date"></td>
+                        </tr>
+                        <tr>
+                            <td>👁️ Oftalmologista</td>
+                            <td>12 meses</td>
+                            <td><input type="date"></td>
+                            <td><input type="date"></td>
+                        </tr>
+                        <tr>
+                            <td>🩺 Dermatologista</td>
+                            <td>4 meses</td>
+                            <td><input type="date"></td>
+                            <td><input type="date"></td>
+                        </tr>
+                        <tr>
+                            <td>⚕️ Check-up Geral</td>
+                            <td>12 meses</td>
+                            <td><input type="date"></td>
+                            <td><input type="date"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tracker-card" style="margin-top: 20px;">
+            <h3>💡 Lembretes e Dicas</h3>
+            <ul>
+                <li><strong>Academia:</strong> Priorize fins de semana de trabalho (após 18h30) e manhãs de folga</li>
+                <li><strong>Consultas:</strong> Sempre agende para dias de folga, período da tarde</li>
+                <li><strong>Organização:</strong> 15min diários + faxina completa no primeiro dia de folga</li>
+                <li><strong>Meal Prep:</strong> Domingos de folga ou último dia antes de trabalhar</li>
+                <li><strong>Flexibilidade:</strong> Ajuste conforme sua energia e necessidades do momento</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
