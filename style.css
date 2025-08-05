@@ -1,3 +1,49 @@
+/* Ajustes para telas pequenas como iPhone 14 (390px x 844px) */
+@media (max-width: 430px) {
+    body {
+        padding: 4px;
+    }
+    .container {
+        padding: 6px;
+        border-radius: 0;
+        max-width: 100vw;
+        min-width: 0;
+        box-shadow: none;
+    }
+    .week-grid {
+        grid-template-columns: 1fr;
+        gap: 6px;
+        margin: 8px 0;
+    }
+    .day-card {
+        min-height: 120px;
+        padding: 6px;
+        font-size: 13px;
+    }
+    .day-header {
+        font-size: 15px;
+        margin-bottom: 6px;
+        padding: 3px;
+    }
+    .activity {
+        font-size: 11px;
+        padding: 2px 0;
+        margin: 2px 0;
+    }
+    .checkbox {
+        width: 16px;
+        height: 16px;
+        margin-right: 4px;
+    }
+    .hora {
+        font-size: 11px;
+        padding: 1px 4px;
+    }
+    .btn {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+}
 /* Centraliza o conteúdo das atividades e alinha checkbox e texto */
 .activity {
     display: flex;
