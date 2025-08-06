@@ -17,58 +17,13 @@ class Activity {
 // Weekly Schedule Manager
 class WeekSchedule {
     constructor() {
-        this.currentScale = 0; // 0 = começa com trabalho, 1 = começa com folga
-        this.activities = {
-            workWeek: [
-                new Activity('05:00', 'Acordar'),
-                new Activity('06:30', 'Café da Manhã'),
-                new Activity('09:30', 'Lanche da Manhã'),
-                new Activity('12:00', 'Almoço'),
-                new Activity('15:30', 'Lanche da Tarde'),
-                new Activity('18:00', 'Jantar'),
-                new Activity('19:20 - 21:45', 'Faculdade'),
-                new Activity('22:30', 'Dormir'),
-            ],
-            workWeekend: [
-                new Activity('05:00', 'Acordar'),
-                new Activity('06:30', 'Café da Manhã'),
-                new Activity('09:30', 'Lanche da Manhã'),
-                new Activity('12:00', 'Almoço'),
-                new Activity('15:30', 'Lanche da Tarde'),
-                new Activity('18:00', 'Jantar'),
-                new Activity('22:30', 'Dormir'),
-            ],
-            offWeek: [
-                new Activity('08:00', 'Acordar'),
-                new Activity('09:30', 'Academia'),
-                new Activity('17:00', 'Arrumar p/Faculdade'),
-                new Activity('19:00', 'Jantar'),
-                new Activity('19:20 - 21:45', 'Faculdade'),
-                new Activity('22:30', 'Dormir'),
-            ],
-            offWeekend: [
-                new Activity('09:00', 'Acordar'),
-                new Activity('10:30', 'Academia'),
-                new Activity('18:00', 'Jantar'),
-                new Activity('22:30', 'Dormir'),
-            ]
-        };
+        this.currentScale = 0;
     }
 
     toggleScale() {
         this.currentScale = this.currentScale === 0 ? 1 : 0;
         this.renderWeek();
         DragAndDrop.initialize();
-    }
-
-    getDaySchedule(dayIndex) {
-        const isWeekend = dayIndex >= 5;
-        const isWork = (dayIndex + this.currentScale) % 2 === 0;
-
-        if (isWork) {
-            return isWeekend ? this.activities.workWeekend : this.activities.workWeek;
-        }
-        return isWeekend ? this.activities.offWeekend : this.activities.offWeek;
     }
 
     getDayType(dayIndex) {
@@ -86,10 +41,8 @@ class WeekSchedule {
         weekGrid.innerHTML = '';
 
         DAYS_OF_WEEK.forEach((day, index) => {
-            const activities = this.getDaySchedule(index);
             const dayType = this.getDayType(index);
-            
-            const dayCard = this.createDayCard(day, dayType, activities);
+            const dayCard = this.createDayCard(day, dayType, []);
             weekGrid.appendChild(dayCard);
         });
     }
@@ -161,6 +114,18 @@ class WeekSchedule {
     }
 }
 
+// Storage Manager
+class Storage {
+    static saveActivities(activities) {
+        localStorage.setItem('weekActivities', JSON.stringify(activities));
+    }
+
+    static loadActivities() {
+        const saved = localStorage.getItem('weekActivities');
+        return saved ? JSON.parse(saved) : {};
+    }
+}
+
 // UI Manager
 class UI {
     static schedule = new WeekSchedule();
@@ -169,6 +134,7 @@ class UI {
 
     static initialize() {
         this.schedule.renderWeek();
+        this.loadSavedActivities();
         DragAndDrop.initialize();
         this.setupEventListeners();
     }
@@ -241,6 +207,7 @@ class UI {
         const content = checkbox.closest('.activity-content');
         content.classList.toggle('completed', checkbox.checked);
         content.classList.toggle('highlighted', checkbox.checked);
+        this.saveCurrentState();
     }
 
     static editActivityFromMenu(btn) {
@@ -248,7 +215,9 @@ class UI {
     }
 
     static removeActivityFromMenu(btn) {
-        this.removeActivity(btn.closest('.activity-actions').closest('.activity'));
+        const activity = btn.closest('.activity-actions').closest('.activity');
+        this.removeActivity(activity);
+        this.saveCurrentState();
     }
 
     static editActivity(activity) {
@@ -266,6 +235,57 @@ class UI {
         activity.style.opacity = '0';
         activity.style.transform = 'translateX(20px)';
         setTimeout(() => activity.remove(), 200);
+    }
+
+    static loadSavedActivities() {
+        const savedActivities = Storage.loadActivities();
+        
+        Object.entries(savedActivities).forEach(([day, activities]) => {
+            const container = document.querySelector(`.activities-container[data-day="${day}"]`);
+            if (container) {
+                activities.forEach(activity => {
+                    const newActivity = document.createElement('div');
+                    newActivity.className = 'activity';
+                    newActivity.draggable = true;
+                    newActivity.dataset.id = activity.id;
+                    
+                    newActivity.innerHTML = `
+                        <div class="activity-content${activity.completed ? ' completed' : ''}">
+                            <input type="checkbox" class="checkbox" onchange="UI.toggleCompleteCheckbox(this)" ${activity.completed ? 'checked' : ''} />
+                            <span class="activity-text"><span class="hora">${activity.time}</span> - ${activity.text}</span>
+                        </div>
+                        ${this.schedule.renderActivityActions()}
+                    `;
+
+                    container.appendChild(newActivity);
+                    DragAndDrop.addEventListeners(newActivity);
+                });
+            }
+        });
+    }
+
+    static saveCurrentState() {
+        const activities = {};
+        
+        document.querySelectorAll('.activities-container').forEach(container => {
+            const day = container.getAttribute('data-day');
+            activities[day] = [];
+            
+            container.querySelectorAll('.activity').forEach(activity => {
+                const timeText = activity.querySelector('.hora').textContent;
+                const activityText = activity.querySelector('.activity-text').textContent.split(' - ')[1];
+                const isCompleted = activity.querySelector('.activity-content').classList.contains('completed');
+                
+                activities[day].push({
+                    id: activity.dataset.id,
+                    time: timeText,
+                    text: activityText,
+                    completed: isCompleted
+                });
+            });
+        });
+
+        Storage.saveActivities(activities);
     }
 
     static addActivity() {
@@ -301,15 +321,16 @@ class UI {
             DragAndDrop.addEventListeners(newActivity);
         }
         
+        this.saveCurrentState();
         this.hideAddActivityModal();
     }
 
     static resetWeek() {
-        document.querySelectorAll('.checkbox').forEach(checkbox => checkbox.checked = false);
-        document.querySelectorAll('input[type="date"]').forEach(dateInput => dateInput.value = '');
-        document.querySelectorAll('.activity-content').forEach(content => {
-            content.classList.remove('completed', 'highlighted');
-        });
+        // Limpa o localStorage
+        localStorage.removeItem('weekActivities');
+        
+        // Recarrega a página para mostrar as atividades padrão
+        window.location.reload();
     }
 }
 
@@ -357,6 +378,7 @@ class DragAndDrop {
 
     static handleDrop(e) {
         e.preventDefault();
+        UI.saveCurrentState();
     }
 
     static getDragAfterElement(container, y) {
