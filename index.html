@@ -1,177 +1,189 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gerenciador de rotina semanal com escala 12x36">
+    <meta name="theme-color" content="#111111">
     <title>Rotina Semanal - Escala 12x36</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="container">
-        <div class="controls">
-            <button class="btn" onclick="alternarEscala()">Alternar Escala da Semana</button>
-            <button class="btn" onclick="resetarSemana()">Resetar Semana</button>
-        </div>
+    <main class="container">
+        <header class="controls">
+            <button class="btn" onclick="alternarEscala()" aria-label="Alternar escala da semana">
+                Alternar Escala da Semana
+            </button>
+            <button class="btn" onclick="resetarSemana()" aria-label="Resetar semana">
+                Resetar Semana
+            </button>
+        </header>
 
-        <!-- Modal para adicionar atividade -->
-        <div id="addActivityModal" class="modal">
+        <dialog id="addActivityModal" class="modal" aria-labelledby="modalTitle">
             <div class="modal-content">
-                <h2>Adicionar Nova Atividade</h2>
-                <div class="form-group">
-                    <label for="activityTime">Horário:</label>
-                    <input type="time" id="activityTime" required>
-                </div>
-                <div class="form-group">
-                    <label for="activityText">Atividade:</label>
-                    <input type="text" id="activityText" placeholder="Digite a atividade" required>
-                </div>
-                <div class="modal-buttons">
-                    <button class="btn" onclick="addActivity()">Adicionar</button>
-                    <button class="btn btn-cancel" onclick="hideAddActivityModal()">Cancelar</button>
-                </div>
+                <h2 id="modalTitle">Adicionar Nova Atividade</h2>
+                <form id="activityForm">
+                    <div class="form-group">
+                        <label for="activityTime">Horário:</label>
+                        <input type="time" id="activityTime" required aria-required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="activityText">Atividade:</label>
+                        <input type="text" id="activityText" placeholder="Digite a atividade" 
+                               required aria-required="true">
+                    </div>
+                    <div class="modal-buttons">
+                        <button type="submit" class="btn" onclick="addActivity()" aria-label="Adicionar atividade">
+                            Adicionar
+                        </button>
+                        <button type="button" class="btn btn-cancel" onclick="hideAddActivityModal()" 
+                                aria-label="Cancelar">
+                            Cancelar
+                        </button>
+                    </div>
+                </form>
             </div>
-        </div>
+        </dialog>
 
-        <div class="legend">
+        <aside class="legend" aria-label="Legenda das cores do calendário">
             <div class="legend-item">
-                <div class="legend-color trabalho"></div>
+                <div class="legend-color trabalho" role="presentation"></div>
                 <span>Trabalho + Faculdade</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color trabalho-weekend"></div>
+                <div class="legend-color trabalho-weekend" role="presentation"></div>
                 <span>Trabalho (Fim de Semana)</span>
             </div>
             <div class="legend-item">
-                <div class="legend-color folga"></div>
+                <div class="legend-color folga" role="presentation"></div>
                 <span>Folga</span>
             </div>
-        </div>
+        </aside>
 
-        <div class="week-grid" id="weekGrid">
-            <!-- Será preenchido pelo JavaScript -->
-        </div>
+        <section class="week-grid" id="weekGrid" aria-label="Grade semanal de atividades">
+            <!-- Conteúdo gerado via JavaScript -->
+        </section>
 
-        <div class="tracker-section">
-            <div class="tracker-card">
+        <section class="tracker-section" aria-label="Seção de acompanhamento">
+            <article class="tracker-card">
                 <h3>📊 Tracker Semanal de Atividades</h3>
-                <table class="tracker-table">
+                <table class="tracker-table" aria-label="Tabela de tracking semanal">
                     <thead>
                         <tr>
-                            <th>Atividade</th>
-                            <th>Meta</th>
-                            <th>Seg</th>
-                            <th>Ter</th>
-                            <th>Qua</th>
-                            <th>Qui</th>
-                            <th>Sex</th>
-                            <th>Sáb</th>
-                            <th>Dom</th>
+                            <th scope="col">Atividade</th>
+                            <th scope="col">Meta</th>
+                            <th scope="col">Seg</th>
+                            <th scope="col">Ter</th>
+                            <th scope="col">Qua</th>
+                            <th scope="col">Qui</th>
+                            <th scope="col">Sex</th>
+                            <th scope="col">Sáb</th>
+                            <th scope="col">Dom</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>🏋️ Academia</td>
+                            <th scope="row">🏋️ Academia</th>
                             <td>3x</td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Academia Segunda-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Academia Terça-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Academia Quarta-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Academia Quinta-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Academia Sexta-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Academia Sábado"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Academia Domingo"></td>
                         </tr>
                         <tr>
-                            <td>🏠 Organização Casa</td>
+                            <th scope="row">🏠 Organização Casa</th>
                             <td>Diário</td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Organização Segunda-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Organização Terça-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Organização Quarta-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Organização Quinta-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Organização Sexta-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Organização Sábado"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Organização Domingo"></td>
                         </tr>
                         <tr>
-                            <td>💼 Planejamento Financeiro</td>
+                            <th scope="row">💼 Planejamento Financeiro</th>
                             <td>1x</td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Planejamento Segunda-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Planejamento Terça-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Planejamento Quarta-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Planejamento Quinta-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Planejamento Sexta-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Planejamento Sábado"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Planejamento Domingo"></td>
                         </tr>
                         <tr>
-                            <td>👔 Cuidados Pessoais</td>
+                            <th scope="row">👔 Cuidados Pessoais</th>
                             <td>2x</td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Cuidados Segunda-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Cuidados Terça-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Cuidados Quarta-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Cuidados Quinta-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Cuidados Sexta-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Cuidados Sábado"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Cuidados Domingo"></td>
                         </tr>
                         <tr>
-                            <td>🎯 Revisão Semanal</td>
+                            <th scope="row">🎯 Revisão Semanal</th>
                             <td>1x</td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
-                            <td><input type="checkbox" class="checkbox"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Revisão Segunda-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Revisão Terça-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Revisão Quarta-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Revisão Quinta-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Revisão Sexta-feira"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Revisão Sábado"></td>
+                            <td><input type="checkbox" class="checkbox" aria-label="Revisão Domingo"></td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </article>
 
-            <div class="tracker-card">
+            <article class="tracker-card">
                 <h3>🏥 Agendamento de Consultas</h3>
-                <table class="tracker-table">
+                <table class="tracker-table" aria-label="Tabela de agendamento de consultas">
                     <thead>
                         <tr>
-                            <th>Especialidade</th>
-                            <th>Frequência</th>
-                            <th>Última Consulta</th>
-                            <th>Próxima</th>
+                            <th scope="col">Especialidade</th>
+                            <th scope="col">Frequência</th>
+                            <th scope="col">Última Consulta</th>
+                            <th scope="col">Próxima</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>🦷 Dentista</td>
+                            <th scope="row">🦷 Dentista</th>
                             <td>6 meses</td>
-                            <td><input type="date"></td>
-                            <td><input type="date"></td>
+                            <td><input type="date" aria-label="Última consulta dentista"></td>
+                            <td><input type="date" aria-label="Próxima consulta dentista"></td>
                         </tr>
                         <tr>
-                            <td>👁️ Oftalmologista</td>
+                            <th scope="row">👁️ Oftalmologista</th>
                             <td>12 meses</td>
-                            <td><input type="date"></td>
-                            <td><input type="date"></td>
+                            <td><input type="date" aria-label="Última consulta oftalmologista"></td>
+                            <td><input type="date" aria-label="Próxima consulta oftalmologista"></td>
                         </tr>
                         <tr>
-                            <td>🩺 Dermatologista</td>
+                            <th scope="row">🩺 Dermatologista</th>
                             <td>4 meses</td>
-                            <td><input type="date"></td>
-                            <td><input type="date"></td>
+                            <td><input type="date" aria-label="Última consulta dermatologista"></td>
+                            <td><input type="date" aria-label="Próxima consulta dermatologista"></td>
                         </tr>
                         <tr>
-                            <td>⚕️ Check-up Geral</td>
+                            <th scope="row">⚕️ Check-up Geral</th>
                             <td>12 meses</td>
-                            <td><input type="date"></td>
-                            <td><input type="date"></td>
+                            <td><input type="date" aria-label="Último check-up geral"></td>
+                            <td><input type="date" aria-label="Próximo check-up geral"></td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
+            </article>
+        </section>
 
-        <div class="tracker-card" style="margin-top: 20px;">
+        <aside class="tracker-card tips" aria-label="Dicas e lembretes">
             <h3>💡 Lembretes e Dicas</h3>
             <ul>
                 <li><strong>Academia:</strong> Priorize fins de semana de trabalho (após 18h30) e manhãs de folga</li>
@@ -180,10 +192,9 @@
                 <li><strong>Meal Prep:</strong> Domingos de folga ou último dia antes de trabalhar</li>
                 <li><strong>Flexibilidade:</strong> Ajuste conforme sua energia e necessidades do momento</li>
             </ul>
-        </div>
-    </div>
+        </aside>
+    </main>
 
     <script src="script.js"></script>
 </body>
-
 </html>
